@@ -1,0 +1,40 @@
+type Admin @model @auth(rules: [{allow: private}, {allow: owner}]) {
+  id: ID!
+  name: String
+  email: String
+  phone_number: String
+  image_url: String
+}
+
+type Sponsor @model @auth(rules: [{allow: private}, {allow: owner}]) {
+  id: ID!
+  name: String
+  image_url: String
+  drivers: [String]
+  username: String
+  email: String
+  phone_number: String
+  company: String
+  password: String
+}
+
+type Driver @model @auth(rules: [{allow: private}, {allow: owner}]) {
+  id: ID!
+  nam: String
+  username: String
+  email: String
+  phone_number: String
+  sponsor: [String]
+  image_url: String
+  points: String
+  password: String
+}
+
+type Product @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  image_url: String
+  price: Float
+  number_of_items: String
+}
+ 

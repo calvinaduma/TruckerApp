@@ -1,0 +1,124 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-truckerapp-dev-133129-authRole",
+      "UnauthRoleArn": "arn:aws:iam::703767402405:role/amplify-truckerapp-dev-133129-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::703767402405:role/amplify-truckerapp-dev-133129-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-truckerapp-dev-133129-deployment",
+      "UnauthRoleName": "amplify-truckerapp-dev-133129-unauthRole",
+      "StackName": "amplify-truckerapp-dev-133129",
+      "StackId": "arn:aws:cloudformation:us-east-1:703767402405:stack/amplify-truckerapp-dev-133129/ddb67030-78b8-11ed-9c25-0ecb1f753d3d",
+      "AmplifyAppId": "d3ezgcs4h0qyqu"
+    }
+  },
+  "api": {
+    "truckerapp": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "truckerapp",
+          "attributes": [
+            "UserPoolId"
+          ]
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            },
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authtruckerapp"
+              }
+            }
+          ]
+        },
+        "GraphQLAPIIdOutput": "b6rypcehsrhwlmnlurugowti6a",
+        "GraphQLAPIEndpointOutput": "https://yuocdulx4rcujpb2jox6izolcm.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-2k3ufdkynnfs3adzhjmjuv2ur4"
+      },
+      "lastPushTimeStamp": "2022-12-12T17:12:32.284Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-truckerapp-dev-133129-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apitruckerapp"
+      },
+      "lastPushDirHash": "EHs9SYmrtZwAAzRFgQ0lrfEEeRU="
+    }
+  },
+  "auth": {
+    "truckerapp": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "NAME",
+          "EMAIL",
+          "PHONE_NUMBER"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS",
+            "REQUIRES_UPPERCASE"
+          ]
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "output": {
+        "CreatedSNSRole": "arn:aws:iam::703767402405:role/sns22a7dd79133129-dev",
+        "UserPoolId": "us-east-1_Sq75sH6VC",
+        "AppClientIDWeb": "5hisgb75d904nlk73inr70n6ur",
+        "AppClientID": "5mciacosbhbje8r87fppr1ggl",
+        "IdentityPoolId": "us-east-1:a8d3cdc9-757f-48fc-8ab4-6bbfbf620799",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:703767402405:userpool/us-east-1_Sq75sH6VC",
+        "IdentityPoolName": "testAuthIdentityPool__dev",
+        "UserPoolName": "truckerapp"
+      },
+      "lastPushTimeStamp": "2022-12-12T17:12:32.287Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-truckerapp-dev-133129-deployment/amplify-cfn-templates/auth/truckerapp-cloudformation-template.json",
+        "logicalId": "authtruckerapp"
+      }
+    }
+  },
+  "storage": {
+    "truckerapp36d55092": {
+      "service": "S3",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "BucketName": "amplify-truckerapp-dev-133129-deployment",
+        "Region": "us-east-1"
+      },
+      "lastPushTimeStamp": "2022-12-10T19:07:24.482Z"
+    }
+  }
+}

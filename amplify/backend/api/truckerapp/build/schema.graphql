@@ -1,0 +1,539 @@
+
+type Admin @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  name: String
+  email: String
+  phone_number: String
+  image_url: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  owner: String
+}
+
+type Sponsor @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  name: String
+  image_url: String
+  drivers: [String]
+  username: String
+  email: String
+  phone_number: String
+  company: String
+  password: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  owner: String
+}
+
+type Driver @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  nam: String
+  username: String
+  email: String
+  phone_number: String
+  sponsor: [String]
+  image_url: String
+  points: String
+  password: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  owner: String
+}
+
+type Product @aws_iam @aws_api_key {
+  id: ID!
+  name: String
+  image_url: String
+  price: Float
+  number_of_items: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelAdminConnection @aws_iam @aws_cognito_user_pools {
+  items: [Admin]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelAdminFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  email: ModelStringInput
+  phone_number: ModelStringInput
+  image_url: ModelStringInput
+  and: [ModelAdminFilterInput]
+  or: [ModelAdminFilterInput]
+  not: ModelAdminFilterInput
+}
+
+type Query {
+  getAdmin(id: ID!): Admin @aws_iam @aws_cognito_user_pools
+  listAdmins(filter: ModelAdminFilterInput, limit: Int, nextToken: String): ModelAdminConnection @aws_iam @aws_cognito_user_pools
+  syncAdmins(filter: ModelAdminFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelAdminConnection @aws_iam @aws_cognito_user_pools
+  getSponsor(id: ID!): Sponsor @aws_iam @aws_cognito_user_pools
+  listSponsors(filter: ModelSponsorFilterInput, limit: Int, nextToken: String): ModelSponsorConnection @aws_iam @aws_cognito_user_pools
+  syncSponsors(filter: ModelSponsorFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelSponsorConnection @aws_iam @aws_cognito_user_pools
+  getDriver(id: ID!): Driver @aws_iam @aws_cognito_user_pools
+  listDrivers(filter: ModelDriverFilterInput, limit: Int, nextToken: String): ModelDriverConnection @aws_iam @aws_cognito_user_pools
+  syncDrivers(filter: ModelDriverFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelDriverConnection @aws_iam @aws_cognito_user_pools
+  getProduct(id: ID!): Product @aws_api_key @aws_iam
+  listProducts(filter: ModelProductFilterInput, limit: Int, nextToken: String): ModelProductConnection @aws_api_key @aws_iam
+  syncProducts(filter: ModelProductFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelProductConnection @aws_api_key @aws_iam
+}
+
+input ModelAdminConditionInput {
+  name: ModelStringInput
+  email: ModelStringInput
+  phone_number: ModelStringInput
+  image_url: ModelStringInput
+  and: [ModelAdminConditionInput]
+  or: [ModelAdminConditionInput]
+  not: ModelAdminConditionInput
+}
+
+input CreateAdminInput {
+  id: ID
+  name: String
+  email: String
+  phone_number: String
+  image_url: String
+  _version: Int
+}
+
+input UpdateAdminInput {
+  id: ID!
+  name: String
+  email: String
+  phone_number: String
+  image_url: String
+  _version: Int
+}
+
+input DeleteAdminInput {
+  id: ID!
+  _version: Int
+}
+
+type Mutation {
+  createAdmin(input: CreateAdminInput!, condition: ModelAdminConditionInput): Admin @aws_iam @aws_cognito_user_pools
+  updateAdmin(input: UpdateAdminInput!, condition: ModelAdminConditionInput): Admin @aws_iam @aws_cognito_user_pools
+  deleteAdmin(input: DeleteAdminInput!, condition: ModelAdminConditionInput): Admin @aws_iam @aws_cognito_user_pools
+  createSponsor(input: CreateSponsorInput!, condition: ModelSponsorConditionInput): Sponsor @aws_iam @aws_cognito_user_pools
+  updateSponsor(input: UpdateSponsorInput!, condition: ModelSponsorConditionInput): Sponsor @aws_iam @aws_cognito_user_pools
+  deleteSponsor(input: DeleteSponsorInput!, condition: ModelSponsorConditionInput): Sponsor @aws_iam @aws_cognito_user_pools
+  createDriver(input: CreateDriverInput!, condition: ModelDriverConditionInput): Driver @aws_iam @aws_cognito_user_pools
+  updateDriver(input: UpdateDriverInput!, condition: ModelDriverConditionInput): Driver @aws_iam @aws_cognito_user_pools
+  deleteDriver(input: DeleteDriverInput!, condition: ModelDriverConditionInput): Driver @aws_iam @aws_cognito_user_pools
+  createProduct(input: CreateProductInput!, condition: ModelProductConditionInput): Product @aws_api_key @aws_iam
+  updateProduct(input: UpdateProductInput!, condition: ModelProductConditionInput): Product @aws_api_key @aws_iam
+  deleteProduct(input: DeleteProductInput!, condition: ModelProductConditionInput): Product @aws_api_key @aws_iam
+}
+
+input ModelSubscriptionAdminFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  email: ModelSubscriptionStringInput
+  phone_number: ModelSubscriptionStringInput
+  image_url: ModelSubscriptionStringInput
+  and: [ModelSubscriptionAdminFilterInput]
+  or: [ModelSubscriptionAdminFilterInput]
+}
+
+type Subscription {
+  onCreateAdmin(filter: ModelSubscriptionAdminFilterInput, owner: String): Admin @aws_subscribe(mutations: ["createAdmin"]) @aws_iam @aws_cognito_user_pools
+  onUpdateAdmin(filter: ModelSubscriptionAdminFilterInput, owner: String): Admin @aws_subscribe(mutations: ["updateAdmin"]) @aws_iam @aws_cognito_user_pools
+  onDeleteAdmin(filter: ModelSubscriptionAdminFilterInput, owner: String): Admin @aws_subscribe(mutations: ["deleteAdmin"]) @aws_iam @aws_cognito_user_pools
+  onCreateSponsor(filter: ModelSubscriptionSponsorFilterInput, owner: String): Sponsor @aws_subscribe(mutations: ["createSponsor"]) @aws_iam @aws_cognito_user_pools
+  onUpdateSponsor(filter: ModelSubscriptionSponsorFilterInput, owner: String): Sponsor @aws_subscribe(mutations: ["updateSponsor"]) @aws_iam @aws_cognito_user_pools
+  onDeleteSponsor(filter: ModelSubscriptionSponsorFilterInput, owner: String): Sponsor @aws_subscribe(mutations: ["deleteSponsor"]) @aws_iam @aws_cognito_user_pools
+  onCreateDriver(filter: ModelSubscriptionDriverFilterInput, owner: String): Driver @aws_subscribe(mutations: ["createDriver"]) @aws_iam @aws_cognito_user_pools
+  onUpdateDriver(filter: ModelSubscriptionDriverFilterInput, owner: String): Driver @aws_subscribe(mutations: ["updateDriver"]) @aws_iam @aws_cognito_user_pools
+  onDeleteDriver(filter: ModelSubscriptionDriverFilterInput, owner: String): Driver @aws_subscribe(mutations: ["deleteDriver"]) @aws_iam @aws_cognito_user_pools
+  onCreateProduct(filter: ModelSubscriptionProductFilterInput): Product @aws_subscribe(mutations: ["createProduct"]) @aws_api_key @aws_iam
+  onUpdateProduct(filter: ModelSubscriptionProductFilterInput): Product @aws_subscribe(mutations: ["updateProduct"]) @aws_api_key @aws_iam
+  onDeleteProduct(filter: ModelSubscriptionProductFilterInput): Product @aws_subscribe(mutations: ["deleteProduct"]) @aws_api_key @aws_iam
+}
+
+type ModelSponsorConnection @aws_iam @aws_cognito_user_pools {
+  items: [Sponsor]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelSponsorFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  image_url: ModelStringInput
+  drivers: ModelStringInput
+  username: ModelStringInput
+  email: ModelStringInput
+  phone_number: ModelStringInput
+  company: ModelStringInput
+  password: ModelStringInput
+  and: [ModelSponsorFilterInput]
+  or: [ModelSponsorFilterInput]
+  not: ModelSponsorFilterInput
+}
+
+input ModelSponsorConditionInput {
+  name: ModelStringInput
+  image_url: ModelStringInput
+  drivers: ModelStringInput
+  username: ModelStringInput
+  email: ModelStringInput
+  phone_number: ModelStringInput
+  company: ModelStringInput
+  password: ModelStringInput
+  and: [ModelSponsorConditionInput]
+  or: [ModelSponsorConditionInput]
+  not: ModelSponsorConditionInput
+}
+
+input CreateSponsorInput {
+  id: ID
+  name: String
+  image_url: String
+  drivers: [String]
+  username: String
+  email: String
+  phone_number: String
+  company: String
+  password: String
+  _version: Int
+}
+
+input UpdateSponsorInput {
+  id: ID!
+  name: String
+  image_url: String
+  drivers: [String]
+  username: String
+  email: String
+  phone_number: String
+  company: String
+  password: String
+  _version: Int
+}
+
+input DeleteSponsorInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionSponsorFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  image_url: ModelSubscriptionStringInput
+  drivers: ModelSubscriptionStringInput
+  username: ModelSubscriptionStringInput
+  email: ModelSubscriptionStringInput
+  phone_number: ModelSubscriptionStringInput
+  company: ModelSubscriptionStringInput
+  password: ModelSubscriptionStringInput
+  and: [ModelSubscriptionSponsorFilterInput]
+  or: [ModelSubscriptionSponsorFilterInput]
+}
+
+type ModelDriverConnection @aws_iam @aws_cognito_user_pools {
+  items: [Driver]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelDriverFilterInput {
+  id: ModelIDInput
+  nam: ModelStringInput
+  username: ModelStringInput
+  email: ModelStringInput
+  phone_number: ModelStringInput
+  sponsor: ModelStringInput
+  image_url: ModelStringInput
+  points: ModelStringInput
+  password: ModelStringInput
+  and: [ModelDriverFilterInput]
+  or: [ModelDriverFilterInput]
+  not: ModelDriverFilterInput
+}
+
+input ModelDriverConditionInput {
+  nam: ModelStringInput
+  username: ModelStringInput
+  email: ModelStringInput
+  phone_number: ModelStringInput
+  sponsor: ModelStringInput
+  image_url: ModelStringInput
+  points: ModelStringInput
+  password: ModelStringInput
+  and: [ModelDriverConditionInput]
+  or: [ModelDriverConditionInput]
+  not: ModelDriverConditionInput
+}
+
+input CreateDriverInput {
+  id: ID
+  nam: String
+  username: String
+  email: String
+  phone_number: String
+  sponsor: [String]
+  image_url: String
+  points: String
+  password: String
+  _version: Int
+}
+
+input UpdateDriverInput {
+  id: ID!
+  nam: String
+  username: String
+  email: String
+  phone_number: String
+  sponsor: [String]
+  image_url: String
+  points: String
+  password: String
+  _version: Int
+}
+
+input DeleteDriverInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionDriverFilterInput {
+  id: ModelSubscriptionIDInput
+  nam: ModelSubscriptionStringInput
+  username: ModelSubscriptionStringInput
+  email: ModelSubscriptionStringInput
+  phone_number: ModelSubscriptionStringInput
+  sponsor: ModelSubscriptionStringInput
+  image_url: ModelSubscriptionStringInput
+  points: ModelSubscriptionStringInput
+  password: ModelSubscriptionStringInput
+  and: [ModelSubscriptionDriverFilterInput]
+  or: [ModelSubscriptionDriverFilterInput]
+}
+
+type ModelProductConnection @aws_api_key @aws_iam {
+  items: [Product]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelProductFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  image_url: ModelStringInput
+  price: ModelFloatInput
+  number_of_items: ModelStringInput
+  and: [ModelProductFilterInput]
+  or: [ModelProductFilterInput]
+  not: ModelProductFilterInput
+}
+
+input ModelProductConditionInput {
+  name: ModelStringInput
+  image_url: ModelStringInput
+  price: ModelFloatInput
+  number_of_items: ModelStringInput
+  and: [ModelProductConditionInput]
+  or: [ModelProductConditionInput]
+  not: ModelProductConditionInput
+}
+
+input CreateProductInput {
+  id: ID
+  name: String
+  image_url: String
+  price: Float
+  number_of_items: String
+  _version: Int
+}
+
+input UpdateProductInput {
+  id: ID!
+  name: String
+  image_url: String
+  price: Float
+  number_of_items: String
+  _version: Int
+}
+
+input DeleteProductInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionProductFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  image_url: ModelSubscriptionStringInput
+  price: ModelSubscriptionFloatInput
+  number_of_items: ModelSubscriptionStringInput
+  and: [ModelSubscriptionProductFilterInput]
+  or: [ModelSubscriptionProductFilterInput]
+}
+

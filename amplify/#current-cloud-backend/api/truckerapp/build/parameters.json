@@ -1,0 +1,19 @@
+{
+    "AppSyncApiName": "truckerapp",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authtruckerapp",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "S3DeploymentBucket": "amplify-truckerapp-dev-133129-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/92ef245e4b79779bfb7f9759e39399ecbaaadaf8"
+}
